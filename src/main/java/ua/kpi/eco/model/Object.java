@@ -2,11 +2,13 @@ package ua.kpi.eco.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Table(name = "objects")
+@NoArgsConstructor
 public class Object {
 
     @Id
@@ -19,4 +21,8 @@ public class Object {
 
     @OneToMany(mappedBy = "object")
     private List<Pollution> pollutions;
+
+    public Object(String name) {
+        this.name = name;
+    }
 }
