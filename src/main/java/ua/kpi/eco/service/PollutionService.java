@@ -22,9 +22,9 @@ public class PollutionService {
 
     @Transactional
     public void create(PollutionDto pollutionDto) {
-        Pollutant pollutant = pollutantRepository.findByName(pollutionDto.pollutantName())
+        Pollutant pollutant = pollutantRepository.findByNameIgnoreCase(pollutionDto.pollutantName())
                 .orElseThrow(() -> new PollutantNotFoundException(pollutionDto.pollutantName()));
-        Object object = objectRepository.findByName(pollutionDto.objectName())
+        Object object = objectRepository.findByNameIgnoreCase(pollutionDto.objectName())
                 .orElse(new Object(pollutionDto.objectName()));
 
         Pollution pollution = Pollution.builder()

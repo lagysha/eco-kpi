@@ -19,7 +19,7 @@ public class Object {
     @NotBlank
     private String name;
 
-    @OneToMany(mappedBy = "object")
+    @OneToMany(mappedBy = "object", cascade = {CascadeType.REMOVE})
     private List<Pollution> pollutions;
 
     public Object(String name) {

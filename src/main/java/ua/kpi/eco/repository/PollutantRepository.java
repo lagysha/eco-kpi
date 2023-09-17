@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface PollutantRepository extends JpaRepository<Pollutant, Long> {
 
-    Optional<Pollutant> findByName(String name);
+    Optional<Pollutant> findByNameIgnoreCase(String name);
 }
