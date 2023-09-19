@@ -1,11 +1,13 @@
 package ua.kpi.eco.model;
 
 import jakarta.persistence.*;
-
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "pollutants")
+@Getter
+@Setter
 public class Pollutant {
 
     @Id
@@ -18,9 +20,6 @@ public class Pollutant {
     @Column(name = "tlv")
     private Long tlv;
 
-    @Column(name = "mass_consumption")
-    private Long massConsumption;
-
-    @OneToMany(mappedBy = "pollutant")
-    private List<Pollution> pollutions;
+    @Column(name = "mfr")
+    private Long mfr;
 }

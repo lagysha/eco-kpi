@@ -1,0 +1,3 @@
+CREATE SEQUENCE IF NOT EXISTS pollutions_sequence
+    START WITH 15
+    INCREMENT BY 1;

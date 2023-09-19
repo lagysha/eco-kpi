@@ -9,6 +9,7 @@ import ua.kpi.eco.dto.PollutionDto;
 
 import java.io.IOException;
 
+
 @Service
 @RequiredArgsConstructor
 public class FileUploadService {
@@ -37,7 +38,7 @@ public class FileUploadService {
         double valuePollution = getValuePollution(valuePollutionCell);
         int year = (int) yearCell.getNumericCellValue();
 
-        return new PollutionDto(objectName, pollutantName, year, valuePollution);
+        return new PollutionDto(objectName,"No Description provided", pollutantName, year, valuePollution);
     }
 
     private double getValuePollution(Cell valuePollutionCell) {
