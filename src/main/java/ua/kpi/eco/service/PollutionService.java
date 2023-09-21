@@ -15,7 +15,6 @@ import ua.kpi.eco.repository.PollutantRepository;
 import ua.kpi.eco.repository.PollutionRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,23 +27,7 @@ public class PollutionService {
 
 
     public List<AggregatedPollutionDto> getAll() {
-        List<Pollution> pollutions = pollutionRepository.findAll();
-        return pollutions.stream()
-                .map(this::convertPollutionToAggregatedPollutionDto)
-                .collect(Collectors.toList());
-    }
-
-    private AggregatedPollutionDto convertPollutionToAggregatedPollutionDto(Pollution pollution){
-        return new AggregatedPollutionDto(
-                pollution.getId(),
-                pollution.getObject().getName(),
-                pollution.getObject().getDescription(),
-                pollution.getPollutant().getName(),
-                pollution.getValuePollution(),
-                pollution.getPollutant().getMfr(),
-                pollution.getPollutant().getTlv(),
-                pollution.getYear()
-        );
+        return pollutionRepository.findAllBy(AggregatedPollutionDto.class);
     }
 
     @Transactional
@@ -61,6 +44,7 @@ public class PollutionService {
                 .year(pollutionDto.year())
                 .build();
         pollutionRepository.save(pollution);
+
         return new PollutionDto(object.getName(),
                 object.getDescription(),
                 pollutant.getName(),
@@ -78,13 +62,14 @@ public class PollutionService {
 
 
     @Transactional
-    public PollutionDto update(Long id,PollutionDto pollutionDto) {
+    public PollutionDto update(Long id, PollutionDto pollutionDto) {
         Pollution pollution = pollutionRepository.findById(id)
                 .orElseThrow(() -> new PollutionNotFoundException("id = " + id));
         Object object = objectRepository.findByNameIgnoreCase(pollutionDto.objectName())
                 .orElse(new Object(pollutionDto.objectName(),pollutionDto.objectDescription()));
         Pollutant pollutant = pollutantRepository.findByNameIgnoreCase(pollutionDto.pollutantName())
                 .orElseThrow(() -> new PollutantNotFoundException(pollutionDto.pollutantName()));
+
         object.setDescription(pollutionDto.objectDescription());
         pollution.setObject(object);
         pollution.setPollutant(pollutant);
@@ -103,7 +88,9 @@ public class PollutionService {
                 .orElseThrow(() -> new PollutionNotFoundException("id = " + id));
         Object object = pollution.getObject();
         Pollutant pollutant = pollution.getPollutant();
+
         return new PollutionDto(
+                id,
                 object.getName(),
                 object.getDescription(),
                 pollutant.getName(),
