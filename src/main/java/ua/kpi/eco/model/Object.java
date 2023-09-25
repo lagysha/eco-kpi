@@ -34,4 +34,8 @@ public class Object {
         this.name = name;
         this.description = description;
     }
+
+    public Object(String name) {
+        this.name = name;
+    }
 }

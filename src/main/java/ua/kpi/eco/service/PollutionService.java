@@ -35,7 +35,7 @@ public class PollutionService {
         Pollutant pollutant = pollutantRepository.findByNameIgnoreCase(pollutionDto.pollutantName())
                 .orElseThrow(() -> new PollutantNotFoundException(pollutionDto.pollutantName()));
         Object object = objectRepository.findByNameIgnoreCase(pollutionDto.objectName())
-                .orElse(new Object(pollutionDto.objectName(),pollutionDto.objectDescription()));
+                .orElse(new Object(pollutionDto.objectName()));
 
         Pollution pollution = Pollution.builder()
                 .pollutant(pollutant)
