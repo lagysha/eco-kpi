@@ -8,4 +8,5 @@ import java.util.List;
 public interface PollutionRepository extends JpaRepository<Pollution, Long> {
 
     <T> List<T> findAllBy(Class<T> type);
+    <T> List<T> findAllByOrderById(Class<T> type);
 }

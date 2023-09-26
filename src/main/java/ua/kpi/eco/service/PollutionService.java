@@ -27,7 +27,7 @@ public class PollutionService {
 
 
     public List<AggregatedPollutionDto> getAll() {
-        return pollutionRepository.findAllBy(AggregatedPollutionDto.class);
+        return pollutionRepository.findAllByOrderById(AggregatedPollutionDto.class);
     }
 
     @Transactional
