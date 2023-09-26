@@ -13,7 +13,7 @@ import ua.kpi.eco.service.FileUploadService;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/file")
+@RequestMapping("api/v1/file")
 @RequiredArgsConstructor
 public class FileUploadController {
 
