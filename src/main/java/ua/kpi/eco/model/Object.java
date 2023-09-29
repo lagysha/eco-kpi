@@ -19,7 +19,7 @@ public class Object {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name",unique = true)
     @NotBlank
     private String name;
 

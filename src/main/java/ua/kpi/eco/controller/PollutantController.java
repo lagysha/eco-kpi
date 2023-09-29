@@ -10,7 +10,7 @@ import ua.kpi.eco.service.PollutantService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/pollutions")
+@RequestMapping("api/v1/pollutants")
 public class PollutantController {
 
     private final PollutantService pollutantService;
@@ -28,9 +28,9 @@ public class PollutantController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<PollutantResponseDto> delete(@PathVariable Long id) {
-        var pollutant = pollutantService.delete(id);
-        return ResponseEntity.ok(pollutant);
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        pollutantService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
