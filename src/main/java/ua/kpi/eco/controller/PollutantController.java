@@ -8,6 +8,8 @@ import ua.kpi.eco.dto.PollutantDto;
 import ua.kpi.eco.dto.PollutantResponseDto;
 import ua.kpi.eco.service.PollutantService;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/pollutants")
@@ -37,5 +39,11 @@ public class PollutantController {
     public ResponseEntity<PollutantResponseDto> get(@PathVariable Long id) {
         var pollutant = pollutantService.get(id);
         return ResponseEntity.ok(pollutant);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PollutantResponseDto>> getAll() {
+        List<PollutantResponseDto> pollutants = pollutantService.getAll();
+        return ResponseEntity.ok(pollutants);
     }
 }

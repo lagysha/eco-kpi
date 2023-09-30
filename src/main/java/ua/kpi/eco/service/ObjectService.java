@@ -9,6 +9,8 @@ import ua.kpi.eco.exception.ObjectNotFoundException;
 import ua.kpi.eco.mapper.ObjectMapper;
 import ua.kpi.eco.repository.ObjectRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -44,5 +46,9 @@ public class ObjectService {
     public ObjectResponseDto get(Long id) {
         var retrievedObject = objectRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("id = " + id));
         return objectMapper.objectToObjectResponseDto(retrievedObject);
+    }
+
+    public List<ObjectResponseDto> getAll() {
+        return objectRepository.findAllBy(ObjectResponseDto.class);
     }
 }

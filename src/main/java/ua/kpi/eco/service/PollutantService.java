@@ -10,6 +10,8 @@ import ua.kpi.eco.mapper.PollutantMapper;
 import ua.kpi.eco.model.Pollutant;
 import ua.kpi.eco.repository.PollutantRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -39,5 +41,9 @@ public class PollutantService {
     public PollutantResponseDto get(Long id) {
         var retrievedPollutant = pollutantRepository.findById(id).orElseThrow(() -> new PollutantNotFoundException("id = " + id));
         return pollutantMapper.pollutantToPollutantResponseDto(retrievedPollutant);
+    }
+
+    public List<PollutantResponseDto> getAll() {
+        return pollutantRepository.findAllBy(PollutantResponseDto.class);
     }
 }

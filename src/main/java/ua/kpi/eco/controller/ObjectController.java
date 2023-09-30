@@ -8,6 +8,8 @@ import ua.kpi.eco.dto.ObjectDto;
 import ua.kpi.eco.dto.ObjectResponseDto;
 import ua.kpi.eco.service.ObjectService;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/objects")
@@ -37,5 +39,11 @@ public class ObjectController {
     public ResponseEntity<ObjectResponseDto> get(@PathVariable Long id) {
         var retrievedObject = objectService.get(id);
         return ResponseEntity.ok(retrievedObject);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ObjectResponseDto>> getAll() {
+        List<ObjectResponseDto> objects = objectService.getAll();
+        return ResponseEntity.ok(objects);
     }
 }
