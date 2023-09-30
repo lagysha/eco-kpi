@@ -6,7 +6,7 @@ public record PollutantDto (
     @NotEmpty
     String name,
     @NotEmpty
-    Long tlv,
+    Long elv,
     @NotEmpty
     Long mfr
 ) {}

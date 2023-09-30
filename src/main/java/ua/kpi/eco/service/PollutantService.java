@@ -27,7 +27,7 @@ public class PollutantService {
         Pollutant pollutant = pollutantRepository.findById(id).orElseThrow(() -> new PollutantNotFoundException("id = " + id));
         pollutant.setName(pollutantDto.name());
         pollutant.setMfr(pollutantDto.mfr());
-        pollutant.setTlv(pollutantDto.tlv());
+        pollutant.setElv(pollutantDto.elv());
         return pollutantMapper.pollutantToPollutantResponseDto(pollutant);
     }
     @Transactional

@@ -28,4 +28,11 @@ public class GlobalExceptionHandler {
         log.error("Handling entity exception: " + e.getMessage());
         return "Duplicate names";
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String handleIllegalArgumentException(IllegalArgumentException e) {
+        log.error("Handling illegal argument exception");
+        return e.getMessage();
+    }
 }

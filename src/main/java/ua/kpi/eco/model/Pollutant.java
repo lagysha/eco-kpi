@@ -19,7 +19,7 @@ public class Pollutant {
     private String name;
 
     @Column(name = "tlv")
-    private Long tlv;
+    private Long elv;
 
     @Column(name = "mfr")
     private Long mfr;
