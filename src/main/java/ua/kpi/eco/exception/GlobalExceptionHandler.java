@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleIllegalArgumentException(IllegalArgumentException e) {
-        log.error("Handling illegal argument exception");
+        log.error("Handling illegal argument exception " + e.getMessage());
         return e.getMessage();
     }
 }

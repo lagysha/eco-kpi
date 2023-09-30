@@ -33,7 +33,7 @@ public class ObjectService {
         var object = objectRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("id = " + id));
 
         object.setName(objectDto.name());
-        object.setName(objectDto.description());
+        object.setDescription(objectDto.description());
         return objectMapper.objectToObjectResponseDto(object);
     }
 
