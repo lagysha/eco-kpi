@@ -11,14 +11,15 @@ import lombok.Setter;
 public class Pollutant {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pollution_seq")
+    @SequenceGenerator(name = "pollution_seq", sequenceName = "pollutions_sequence", initialValue = 15, allocationSize = 1)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name",unique = true)
     private String name;
 
     @Column(name = "tlv")
-    private Long tlv;
+    private Long elv;
 
     @Column(name = "mfr")
     private Long mfr;

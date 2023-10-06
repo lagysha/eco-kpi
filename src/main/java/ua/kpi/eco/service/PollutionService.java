@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.kpi.eco.dto.AggregatedPollutionDto;
 import ua.kpi.eco.dto.PollutionDto;
+import ua.kpi.eco.exception.ObjectNotFoundException;
 import ua.kpi.eco.exception.PollutantNotFoundException;
 import ua.kpi.eco.exception.PollutionNotFoundException;
 import ua.kpi.eco.model.Object;
@@ -33,7 +34,7 @@ public class PollutionService {
     @Transactional
     public PollutionDto create(PollutionDto pollutionDto) {
         Pollutant pollutant = pollutantRepository.findByNameIgnoreCase(pollutionDto.pollutantName())
-                .orElseThrow(() -> new PollutantNotFoundException(pollutionDto.pollutantName()));
+                .orElseThrow(() -> new PollutantNotFoundException("name = " + pollutionDto.pollutantName()));
         Object object = objectRepository.findByNameIgnoreCase(pollutionDto.objectName())
                 .orElse(new Object(pollutionDto.objectName()));
 
@@ -66,9 +67,9 @@ public class PollutionService {
         Pollution pollution = pollutionRepository.findById(id)
                 .orElseThrow(() -> new PollutionNotFoundException("id = " + id));
         Object object = objectRepository.findByNameIgnoreCase(pollutionDto.objectName())
-                .orElse(new Object(pollutionDto.objectName(),pollutionDto.objectDescription()));
+                .orElseThrow(() -> new ObjectNotFoundException("name = " + pollutionDto.objectName()));
         Pollutant pollutant = pollutantRepository.findByNameIgnoreCase(pollutionDto.pollutantName())
-                .orElseThrow(() -> new PollutantNotFoundException(pollutionDto.pollutantName()));
+                .orElseThrow(() -> new PollutantNotFoundException("name = " +pollutionDto.pollutantName()));
 
         object.setDescription(pollutionDto.objectDescription());
         pollution.setObject(object);

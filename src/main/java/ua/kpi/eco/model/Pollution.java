@@ -5,7 +5,7 @@ import lombok.*;
 
 
 @Entity
-@Table(name = "pollutions")
+@Table(name = "pollutions", uniqueConstraints = { @UniqueConstraint(columnNames = {"object_id", "pollutant_id", "year" }) })
 @Builder
 @Getter
 @Setter

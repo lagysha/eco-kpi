@@ -7,6 +7,6 @@ public record AggregatedPollutionDto(
         String pollutantName,
         double valuePollution,
         Long pollutantMfr,
-        Long pollutantTlv,
+        Long pollutantElv,
         int year
 ) {}
