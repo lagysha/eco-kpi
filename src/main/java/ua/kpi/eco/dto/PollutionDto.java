@@ -13,9 +13,12 @@ public record PollutionDto(
         @NotEmpty
         int year,
         @NotEmpty
-        double valuePollution
+        double valuePollution,
+        @NotEmpty
+        double pollutionConcentration
 ) {
-    public PollutionDto(String objectName, String objectDescription, String pollutantName, int year, double valuePollution) {
-        this(null, objectName, objectDescription, pollutantName, year, valuePollution);
+    public PollutionDto(String objectName, String objectDescription, String pollutantName,
+                        int year, double valuePollution, double pollutionConcentration) {
+        this(null, objectName, objectDescription, pollutantName, year, valuePollution, pollutionConcentration);
     }
 }

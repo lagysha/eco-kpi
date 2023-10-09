@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
-public class FileUploadService {
+public class PollutionFileUploadService {
 
     private final PollutionService pollutionService;
 
@@ -32,20 +32,26 @@ public class FileUploadService {
         Cell pollutantNameCell = row.getCell(1);
         Cell valuePollutionCell = row.getCell(2);
         Cell yearCell = row.getCell(3);
+        Cell concentrationCell = row.getCell(4);
 
         String objectName = objectNameCell.getStringCellValue().trim();
         String pollutantName = pollutantNameCell.getStringCellValue().trim();
-        double valuePollution = getValuePollution(valuePollutionCell);
+        double valuePollution = getDoubleFromCell(valuePollutionCell);
         int year = (int) yearCell.getNumericCellValue();
+        double pollutionConcentration = getDoubleFromCell(concentrationCell);
 
-        return new PollutionDto(objectName,"No Description provided", pollutantName, year, valuePollution);
+        return new PollutionDto(objectName,"No Description provided",
+                pollutantName, year, valuePollution, pollutionConcentration);
     }
 
-    private double getValuePollution(Cell valuePollutionCell) {
-        if (valuePollutionCell.getCellType().equals(CellType.NUMERIC)) {
-            return valuePollutionCell.getNumericCellValue();
+    private double getDoubleFromCell(Cell numericCell) {
+        if (numericCell == null) {
+            return 0;
         }
-        String formattedValue = valuePollutionCell.getStringCellValue().replace(",", ".");
+        if (numericCell.getCellType().equals(CellType.NUMERIC)) {
+            return numericCell.getNumericCellValue();
+        }
+        String formattedValue = numericCell.getStringCellValue().replace(",", ".");
         return Double.parseDouble(formattedValue);
     }
 }

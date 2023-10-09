@@ -8,20 +8,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import ua.kpi.eco.service.FileUploadService;
+import ua.kpi.eco.service.PollutionFileUploadService;
 
 import java.io.IOException;
 
 @RestController
 @RequestMapping("api/v1/file")
 @RequiredArgsConstructor
-public class FileUploadController {
+public class PollutionFileUploadController {
 
-    private final FileUploadService fileUploadService;
+    private final PollutionFileUploadService pollutionFileUploadService;
 
     @PostMapping
     public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
-        fileUploadService.parseAndSave(file);
+        pollutionFileUploadService.parseAndSave(file);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

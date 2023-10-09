@@ -31,4 +31,17 @@ public class Pollution {
 
     @Column(name = "value_pollution")
     private double valuePollution;
+
+    @Column(name = "pollution_concentration")
+    private double pollutionConcentration;
+
+    @Column(name = "add_ladd")
+    private double addLadd;
+
+    public static double calculateAddLadd(double pc) {
+        final double defaultBW = 60, daysInYear = 365,
+                defaultTout = 1.64, defaultTin = 19.69, defaultAT = 70,
+                defaultVout = 0.63, defaultVin = 0.5, defaultED = 70;
+        return (((pc*defaultTout*defaultVout)+(pc*defaultTin*defaultVin))*daysInYear*defaultED)/(defaultBW*defaultAT*daysInYear);
+    }
 }
