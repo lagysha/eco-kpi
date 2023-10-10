@@ -30,6 +30,7 @@ public class PollutantService {
         pollutant.setName(pollutantDto.name());
         pollutant.setMfr(pollutantDto.mfr());
         pollutant.setElv(pollutantDto.elv());
+        pollutant.setTlv(pollutantDto.tlv());
         return pollutantMapper.pollutantToPollutantResponseDto(pollutant);
     }
     @Transactional

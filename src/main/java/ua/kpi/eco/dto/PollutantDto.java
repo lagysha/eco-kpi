@@ -8,5 +8,7 @@ public record PollutantDto (
     @NotEmpty
     Long elv,
     @NotEmpty
-    Long mfr
+    Long mfr,
+    @NotEmpty
+    double tlv
 ) {}
