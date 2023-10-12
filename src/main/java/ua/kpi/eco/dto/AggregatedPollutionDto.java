@@ -10,6 +10,7 @@ public record AggregatedPollutionDto(
         Long pollutantElv,
         double pollutantTlv,
         double pollutionConcentration,
-        double addLadd,
+        double hq,
+        double cr,
         int year
 ) {}

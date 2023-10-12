@@ -1,14 +1,18 @@
 package ua.kpi.eco.dto;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public record PollutantDto (
-    @NotEmpty
+    @NotNull
     String name,
-    @NotEmpty
+    @NotNull
     Long elv,
-    @NotEmpty
+    @NotNull
     Long mfr,
-    @NotEmpty
-    double tlv
+    @NotNull
+    double tlv,
+    @NotNull
+    double sf,
+    @NotNull
+    double rfc
 ) {}

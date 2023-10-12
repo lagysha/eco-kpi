@@ -48,7 +48,8 @@ public class PollutionFileUploadController {
             String[] headers = {
                     "ID", "Object Name", "Object Description", "Pollutant Name",
                     "Value Pollution", "Pollutant Mfr", "Pollutant Elv",
-                    "Pollutant TLV", "Pollution Concentration", "Add Ladd", "Year"
+                    "Pollutant TLV", "Pollution Concentration", "CR",
+                    "HQ", "Year"
             };
 
             for (int i = 0; i < headers.length; i++) {
@@ -69,8 +70,9 @@ public class PollutionFileUploadController {
                 row.createCell(6).setCellValue(exportDto.pollutantElv());
                 row.createCell(7).setCellValue(exportDto.pollutantTlv());
                 row.createCell(8).setCellValue(exportDto.pollutionConcentration());
-                row.createCell(9).setCellValue(exportDto.addLadd());
-                row.createCell(10).setCellValue(exportDto.year());
+                row.createCell(9).setCellValue(exportDto.cr());
+                row.createCell(10).setCellValue(exportDto.hq());
+                row.createCell(11).setCellValue(exportDto.year());
             }
 
             // Write the workbook to a byte array

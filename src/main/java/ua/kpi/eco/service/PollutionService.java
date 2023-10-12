@@ -46,7 +46,8 @@ public class PollutionService {
                 .valuePollution(pollutionDto.valuePollution())
                 .year(pollutionDto.year())
                 .pollutionConcentration(pollutionDto.pollutionConcentration())
-                .addLadd(Pollution.calculateAddLadd(pollutionDto.pollutionConcentration()))
+                .hq(Pollution.calculateHQ(pollutionDto.pollutionConcentration(),pollutant.getRfc()))
+                .cr(Pollution.calculateCR(pollutionDto.pollutionConcentration(),pollutant.getSf()))
                 .build();
         pollutionRepository.save(pollution);
 
@@ -74,7 +75,8 @@ public class PollutionService {
         pollution.setPollutant(pollutant);
         pollution.setValuePollution(pollutionDto.valuePollution());
         pollution.setYear(pollutionDto.year());
-        pollution.setAddLadd(Pollution.calculateAddLadd(pollutionDto.pollutionConcentration()));
+        pollution.setHq(Pollution.calculateHQ(pollutionDto.pollutionConcentration(),pollutant.getRfc()));
+        pollution.setCr(Pollution.calculateCR(pollutionDto.pollutionConcentration(),pollutant.getSf()));
         pollution.setPollutionConcentration(pollutionDto.pollutionConcentration());
 
         return pollutionMapper.entityToPollutionResponse(pollution);

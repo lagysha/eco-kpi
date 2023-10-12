@@ -26,4 +26,10 @@ public class Pollutant {
 
     @Column(name = "mfr")
     private Long mfr;
+
+    @Column(name = "sf")
+    private double sf;
+
+    @Column(name = "rfc")
+    private double rfc;
 }

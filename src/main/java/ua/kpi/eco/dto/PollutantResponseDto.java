@@ -5,5 +5,7 @@ public record PollutantResponseDto(
         String name,
         Long elv,
         Long mfr,
-        double tlv
+        double tlv,
+        double sf,
+        double rfc
 ) {}

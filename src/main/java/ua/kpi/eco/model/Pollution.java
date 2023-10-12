@@ -35,8 +35,19 @@ public class Pollution {
     @Column(name = "pollution_concentration")
     private double pollutionConcentration;
 
-    @Column(name = "add_ladd")
-    private double addLadd;
+    @Column(name = "cr")
+    private double cr;
+
+    @Column(name = "hq")
+    private double hq;
+
+    public static double calculateHQ(double pc,double rfc) {
+        return calculateAddLadd(pc)*rfc;
+    }
+
+    public static double calculateCR(double pc,double sf) {
+        return calculateAddLadd(pc)*sf;
+    }
 
     public static double calculateAddLadd(double pc) {
         final double defaultBW = 60, daysInYear = 365,
