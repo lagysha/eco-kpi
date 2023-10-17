@@ -12,5 +12,6 @@ public record AggregatedPollutionDto(
         double pollutionConcentration,
         double hq,
         double cr,
+        double fee,
         int year
 ) {}

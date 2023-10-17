@@ -41,7 +41,7 @@ public class PollutionFileUploadService {
         double pollutionConcentration = getDoubleFromCell(concentrationCell);
 
         return new PollutionDto(objectName,"No Description provided",
-                pollutantName, year, valuePollution, pollutionConcentration,0,0);
+                pollutantName, year, valuePollution, pollutionConcentration,0,0,0);
     }
 
     private double getDoubleFromCell(Cell numericCell) {
