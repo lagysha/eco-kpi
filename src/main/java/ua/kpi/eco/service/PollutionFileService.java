@@ -1,42 +1,26 @@
-package ua.kpi.eco.controller;
+package ua.kpi.eco.service;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ua.kpi.eco.dto.AggregatedPollutionDto;
-import ua.kpi.eco.service.PollutionFileUploadService;
-import ua.kpi.eco.service.PollutionService;
+import ua.kpi.eco.dto.PollutionDto;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-@RestController
-@RequestMapping("api/v1/file")
-@RequiredArgsConstructor
-public class PollutionFileUploadController {
 
-    private final PollutionFileUploadService pollutionFileUploadService;
+@Service
+@RequiredArgsConstructor
+public class PollutionFileService {
+
     private final PollutionService pollutionService;
 
-    @PostMapping
-    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
-        pollutionFileUploadService.parseAndSave(file);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @GetMapping("/export")
-    public ResponseEntity<byte[]> exportToExcel() throws IOException {
-        // Create a list of ExportDto data (replace with your actual data source)
+    public byte[] exportPollutions() throws IOException {
         List<AggregatedPollutionDto> data = pollutionService.getAll();
 
         // Create a workbook and sheet
@@ -49,7 +33,7 @@ public class PollutionFileUploadController {
                     "ID", "Object Name", "Object Description", "Pollutant Name",
                     "Value Pollution", "Pollutant Mfr", "Pollutant Elv",
                     "Pollutant TLV", "Pollution Concentration", "CR",
-                    "HQ", "Year"
+                    "HQ", "Fee", "Year"
             };
 
             for (int i = 0; i < headers.length; i++) {
@@ -72,21 +56,53 @@ public class PollutionFileUploadController {
                 row.createCell(8).setCellValue(exportDto.pollutionConcentration());
                 row.createCell(9).setCellValue(exportDto.cr());
                 row.createCell(10).setCellValue(exportDto.hq());
-                row.createCell(11).setCellValue(exportDto.year());
+                row.createCell(11).setCellValue(exportDto.fee());
+                row.createCell(12).setCellValue(exportDto.year());
             }
 
             // Write the workbook to a byte array
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             workbook.write(outputStream);
-            byte[] excelBytes = outputStream.toByteArray();
-
-            // Set appropriate HTTP headers
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            httpHeaders.setContentDispositionFormData("attachment", "exported_data.xlsx");
-            httpHeaders.setContentLength(excelBytes.length);
-
-            return ResponseEntity.ok().headers(httpHeaders).body(excelBytes);
+            return outputStream.toByteArray();
         }
+    }
+
+    @Transactional
+    public void parseAndSave(MultipartFile file) throws IOException {
+        try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // assuming the data is in the first sheet
+            for (Row row : sheet) {
+                PollutionDto pollutionRow = parseRowToPollutionDto(row);
+                pollutionService.create(pollutionRow);
+            }
+        }
+    }
+
+    private PollutionDto parseRowToPollutionDto(Row row) {
+        Cell objectNameCell = row.getCell(0);
+        Cell pollutantNameCell = row.getCell(1);
+        Cell valuePollutionCell = row.getCell(2);
+        Cell yearCell = row.getCell(3);
+        Cell concentrationCell = row.getCell(4);
+
+        String objectName = objectNameCell.getStringCellValue().trim();
+        String pollutantName = pollutantNameCell.getStringCellValue().trim();
+        double valuePollution = getDoubleFromCell(valuePollutionCell);
+        int year = (int) yearCell.getNumericCellValue();
+        double pollutionConcentration = getDoubleFromCell(concentrationCell);
+
+        return new PollutionDto(objectName,"No Description provided",
+                pollutantName, year, valuePollution, pollutionConcentration);
+    }
+
+    private double getDoubleFromCell(Cell numericCell) {
+        if (numericCell == null) {
+            return 0;
+        }
+        if (numericCell.getCellType().equals(CellType.NUMERIC)) {
+            return numericCell.getNumericCellValue();
+        }
+        String formattedValue = numericCell.getStringCellValue().replace(",", ".");
+        return Double.parseDouble(formattedValue);
     }
 }
