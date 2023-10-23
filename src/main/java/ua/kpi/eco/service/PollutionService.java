@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.kpi.eco.dto.AggregatedPollutionDto;
 import ua.kpi.eco.dto.PollutionDto;
+import ua.kpi.eco.dto.PollutionResponseDto;
 import ua.kpi.eco.exception.ObjectNotFoundException;
 import ua.kpi.eco.exception.PollutantNotFoundException;
 import ua.kpi.eco.exception.PollutionNotFoundException;
+import ua.kpi.eco.mapper.PollutionMapper;
 import ua.kpi.eco.model.Object;
 import ua.kpi.eco.model.Pollutant;
 import ua.kpi.eco.model.Pollution;
@@ -25,14 +27,14 @@ public class PollutionService {
     private final PollutionRepository pollutionRepository;
     private final PollutantRepository pollutantRepository;
     private final ObjectRepository objectRepository;
-
+    private final PollutionMapper pollutionMapper;
 
     public List<AggregatedPollutionDto> getAll() {
         return pollutionRepository.findAllByOrderById(AggregatedPollutionDto.class);
     }
 
     @Transactional
-    public PollutionDto create(PollutionDto pollutionDto) {
+    public PollutionResponseDto create(PollutionDto pollutionDto) {
         Pollutant pollutant = pollutantRepository.findByNameIgnoreCase(pollutionDto.pollutantName())
                 .orElseThrow(() -> new PollutantNotFoundException("name = " + pollutionDto.pollutantName()));
         Object object = objectRepository.findByNameIgnoreCase(pollutionDto.objectName())
@@ -43,16 +45,15 @@ public class PollutionService {
                 .object(object)
                 .valuePollution(pollutionDto.valuePollution())
                 .year(pollutionDto.year())
+                .pollutionConcentration(pollutionDto.pollutionConcentration())
+                .hq(Pollution.calculateHQ(pollutionDto.pollutionConcentration(),pollutant.getRfc()))
+                .cr(Pollution.calculateCR(pollutionDto.pollutionConcentration(),pollutant.getSf()))
+                .fee(Pollution.calculateAirFee(pollutant.getMfr(),pollutionDto.valuePollution(),pollutant.getTlv()))
                 .build();
         pollutionRepository.save(pollution);
 
-        return new PollutionDto(object.getName(),
-                object.getDescription(),
-                pollutant.getName(),
-                pollution.getYear(),
-                pollution.getValuePollution());
+        return pollutionMapper.entityToPollutionResponse(pollution);
     }
-
 
     @Transactional
     public void delete(Long id) {
@@ -61,9 +62,8 @@ public class PollutionService {
         pollutionRepository.deleteById(id);
     }
 
-
     @Transactional
-    public PollutionDto update(Long id, PollutionDto pollutionDto) {
+    public PollutionResponseDto update(Long id, PollutionDto pollutionDto) {
         Pollution pollution = pollutionRepository.findById(id)
                 .orElseThrow(() -> new PollutionNotFoundException("id = " + id));
         Object object = objectRepository.findByNameIgnoreCase(pollutionDto.objectName())
@@ -76,26 +76,16 @@ public class PollutionService {
         pollution.setPollutant(pollutant);
         pollution.setValuePollution(pollutionDto.valuePollution());
         pollution.setYear(pollutionDto.year());
+        pollution.setHq(Pollution.calculateHQ(pollutionDto.pollutionConcentration(),pollutant.getRfc()));
+        pollution.setCr(Pollution.calculateCR(pollutionDto.pollutionConcentration(),pollutant.getSf()));
+        pollution.setFee(Pollution.calculateAirFee(pollutant.getMfr(),pollutionDto.valuePollution(),pollutant.getTlv()));
+        pollution.setPollutionConcentration(pollutionDto.pollutionConcentration());
 
-        return new PollutionDto(object.getName(),
-                object.getDescription(),
-                pollutant.getName(),
-                pollution.getYear(),
-                pollution.getValuePollution());
+        return pollutionMapper.entityToPollutionResponse(pollution);
     }
 
-    public PollutionDto read(Long id) {
-        Pollution pollution = pollutionRepository.findById(id)
+    public PollutionResponseDto read(Long id) {
+        return pollutionRepository.findPollutionById(id, PollutionResponseDto.class)
                 .orElseThrow(() -> new PollutionNotFoundException("id = " + id));
-        Object object = pollution.getObject();
-        Pollutant pollutant = pollution.getPollutant();
-
-        return new PollutionDto(
-                id,
-                object.getName(),
-                object.getDescription(),
-                pollutant.getName(),
-                pollution.getYear(),
-                pollution.getValuePollution());
     }
 }

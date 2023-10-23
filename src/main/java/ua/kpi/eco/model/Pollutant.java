@@ -18,9 +18,18 @@ public class Pollutant {
     @Column(name = "name",unique = true)
     private String name;
 
-    @Column(name = "tlv")
+    @Column(name = "elv")
     private Long elv;
+
+    @Column(name = "tlv")
+    private double tlv;
 
     @Column(name = "mfr")
     private Long mfr;
+
+    @Column(name = "sf")
+    private double sf;
+
+    @Column(name = "rfc")
+    private double rfc;
 }

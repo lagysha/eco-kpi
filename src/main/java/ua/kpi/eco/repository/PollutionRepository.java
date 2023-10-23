@@ -10,6 +10,6 @@ public interface PollutionRepository extends JpaRepository<Pollution, Long> {
 
     <T> List<T> findAllBy(Class<T> type);
     <T> List<T> findAllByOrderById(Class<T> type);
-
+    <T> Optional<T> findPollutionById(long id, Class<T> type);
     Optional<Pollution> findByObjectIdAndYear(Long objectId, int year);
 }

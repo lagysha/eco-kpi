@@ -18,6 +18,7 @@ import java.util.List;
 public class PollutantService {
     private final PollutantRepository pollutantRepository;
     private final PollutantMapper pollutantMapper;
+
     @Transactional
     public PollutantResponseDto create(PollutantDto pollutantDto) {
         var pollutantToCrete = pollutantMapper.pollutantDtoToPollutant(pollutantDto);
@@ -30,6 +31,9 @@ public class PollutantService {
         pollutant.setName(pollutantDto.name());
         pollutant.setMfr(pollutantDto.mfr());
         pollutant.setElv(pollutantDto.elv());
+        pollutant.setTlv(pollutantDto.tlv());
+        pollutant.setSf(pollutantDto.sf());
+        pollutant.setRfc(pollutantDto.rfc());
         return pollutantMapper.pollutantToPollutantResponseDto(pollutant);
     }
     @Transactional

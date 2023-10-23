@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.kpi.eco.dto.AggregatedPollutionDto;
 import ua.kpi.eco.dto.PollutionDto;
+import ua.kpi.eco.dto.PollutionResponseDto;
 import ua.kpi.eco.service.PollutionService;
 
 import java.util.List;
@@ -23,17 +24,17 @@ public class PollutionController {
     }
 
     @GetMapping("/{id}")
-    public PollutionDto getPollution(@PathVariable Long id){
+    public PollutionResponseDto getPollution(@PathVariable Long id){
         return pollutionService.read(id);
     }
 
     @PutMapping("/{id}")
-    public PollutionDto updatePollution(@PathVariable Long id, @RequestBody PollutionDto pollutionDto){
+    public PollutionResponseDto updatePollution(@PathVariable Long id, @RequestBody PollutionDto pollutionDto){
         return pollutionService.update(id,pollutionDto);
     }
 
     @PostMapping
-    public ResponseEntity<PollutionDto> createPollution(@RequestBody PollutionDto pollutionDto){
+    public ResponseEntity<PollutionResponseDto> createPollution(@RequestBody PollutionDto pollutionDto){
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(pollutionService.create(pollutionDto));
     }
