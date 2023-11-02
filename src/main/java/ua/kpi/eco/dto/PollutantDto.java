@@ -14,5 +14,9 @@ public record PollutantDto (
     @NotNull
     double sf,
     @NotNull
-    double rfc
+    double rfc,
+    @NotNull
+    Long pollutantTypeId,
+    @NotNull
+    double taxRate
 ) {}

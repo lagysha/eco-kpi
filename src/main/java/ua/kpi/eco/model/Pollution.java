@@ -44,6 +44,13 @@ public class Pollution {
     @Column(name = "fee")
     private double fee;
 
+    @Column
+    private double tax;
+
+    public static double calcTax(double valuePollution,double taxRate){
+        return taxRate * valuePollution;
+    }
+
     public static double calculateHQ(double pc,double rfc) {
         return calculateAddLadd(pc)*rfc;
     }

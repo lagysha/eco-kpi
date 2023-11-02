@@ -12,7 +12,6 @@ public interface PollutionMapper {
     @Mappings({
             @Mapping(target = "objectName", source = "object.name"),
             @Mapping(target = "objectDescription", source = "object.description"),
-            @Mapping(target = "pollutantName", source = "pollutant.name")
     })
     PollutionResponseDto entityToPollutionResponse(Pollution pollution);
 }
