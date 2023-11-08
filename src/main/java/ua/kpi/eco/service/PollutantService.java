@@ -42,6 +42,7 @@ public class PollutantService {
         pollutant.setSf(pollutantDto.sf());
         pollutant.setRfc(pollutantDto.rfc());
         pollutant.setPollutantType(pollutantType);
+        pollutant.setTaxRate(pollutantDto.taxRate());
         return pollutantMapper.pollutantToPollutantResponseDto(pollutant);
     }
     @Transactional

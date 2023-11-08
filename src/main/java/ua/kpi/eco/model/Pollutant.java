@@ -12,7 +12,7 @@ public class Pollutant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pollution_seq")
-    @SequenceGenerator(name = "pollution_seq", sequenceName = "pollutions_sequence", initialValue = 15, allocationSize = 1)
+    @SequenceGenerator(name = "pollution_seq", sequenceName = "pollutions_sequence", initialValue = 30, allocationSize = 1)
     private Long id;
 
     @Column(name = "name")
