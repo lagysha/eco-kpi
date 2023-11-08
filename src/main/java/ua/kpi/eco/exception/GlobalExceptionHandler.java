@@ -16,6 +16,7 @@ public class GlobalExceptionHandler {
             PollutantNotFoundException.class,
             PollutionNotFoundException.class,
             ObjectAlreadyExists.class,
+            EmeregencyNotFoundException.class,
             PollutantAlreadyExists.class})
     public String handleEntitiesException(RuntimeException e) {
         log.error("Handling entity exception: " + e.getMessage());
