@@ -6,7 +6,6 @@ public record PollutionDto(
         Long id,
         @NotNull
         String objectName,
-        @NotNull
         String objectDescription,
         @NotNull
         Long pollutantId,
