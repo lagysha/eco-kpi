@@ -1,6 +1,8 @@
 package ua.kpi.eco.dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import ua.kpi.eco.model.Pollutant;
 
 public record PollutionResponseDto(
         Long id,
@@ -9,7 +11,7 @@ public record PollutionResponseDto(
         @NotEmpty
         String objectDescription,
         @NotEmpty
-        String pollutantName,
+        Pollutant pollutant,
         @NotEmpty
         int year,
         @NotEmpty
@@ -21,10 +23,12 @@ public record PollutionResponseDto(
         @NotEmpty
         double cr,
         @NotEmpty
-        double fee
+        double fee,
+        @NotNull
+        double tax
 ) {
-    public PollutionResponseDto(String objectName, String objectDescription, String pollutantName,
-                        int year, double valuePollution, double pollutionConcentration,double hq,double cr,double fee) {
-        this(null, objectName, objectDescription, pollutantName, year, valuePollution, pollutionConcentration,hq,cr,fee);
+    public PollutionResponseDto(String objectName, String objectDescription, Pollutant pollutant,
+                        int year, double valuePollution, double pollutionConcentration,double hq,double cr,double fee,double tax) {
+        this(null, objectName, objectDescription, pollutant, year, valuePollution, pollutionConcentration,hq,cr,fee,tax);
     }
 }

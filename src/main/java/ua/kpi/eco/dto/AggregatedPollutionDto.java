@@ -1,10 +1,12 @@
 package ua.kpi.eco.dto;
 
+import ua.kpi.eco.model.Pollutant;
+
 public record AggregatedPollutionDto(
         Long id,
         String objectName,
         String objectDescription,
-        String pollutantName,
+        Pollutant pollutant,
         double valuePollution,
         Long pollutantMfr,
         Long pollutantElv,
@@ -13,5 +15,6 @@ public record AggregatedPollutionDto(
         double hq,
         double cr,
         double fee,
-        int year
+        int year,
+        double tax
 ) {}

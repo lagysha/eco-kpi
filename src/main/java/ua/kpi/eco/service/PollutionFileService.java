@@ -33,7 +33,7 @@ public class PollutionFileService {
                     "ID", "Object Name", "Object Description", "Pollutant Name",
                     "Value Pollution", "Pollutant Mfr", "Pollutant Elv",
                     "Pollutant TLV", "Pollution Concentration", "CR",
-                    "HQ", "Fee", "Year"
+                    "HQ", "Fee", "Year", "Tax"
             };
 
             for (int i = 0; i < headers.length; i++) {
@@ -48,7 +48,7 @@ public class PollutionFileService {
                 row.createCell(0).setCellValue(exportDto.id());
                 row.createCell(1).setCellValue(exportDto.objectName());
                 row.createCell(2).setCellValue(exportDto.objectDescription());
-                row.createCell(3).setCellValue(exportDto.pollutantName());
+                row.createCell(3).setCellValue(exportDto.pollutant().getName()+" "+exportDto.pollutant().getPollutantType().getPollutantTypeName());
                 row.createCell(4).setCellValue(exportDto.valuePollution());
                 row.createCell(5).setCellValue(exportDto.pollutantMfr());
                 row.createCell(6).setCellValue(exportDto.pollutantElv());
@@ -58,6 +58,7 @@ public class PollutionFileService {
                 row.createCell(10).setCellValue(exportDto.hq());
                 row.createCell(11).setCellValue(exportDto.fee());
                 row.createCell(12).setCellValue(exportDto.year());
+                row.createCell(13).setCellValue(exportDto.tax());
             }
 
             // Write the workbook to a byte array
@@ -80,19 +81,19 @@ public class PollutionFileService {
 
     private PollutionDto parseRowToPollutionDto(Row row) {
         Cell objectNameCell = row.getCell(0);
-        Cell pollutantNameCell = row.getCell(1);
+        Cell pollutantById = row.getCell(1);
         Cell valuePollutionCell = row.getCell(2);
         Cell yearCell = row.getCell(3);
         Cell concentrationCell = row.getCell(4);
 
         String objectName = objectNameCell.getStringCellValue().trim();
-        String pollutantName = pollutantNameCell.getStringCellValue().trim();
+        Long pollutantId =  (long) pollutantById.getNumericCellValue();
         double valuePollution = getDoubleFromCell(valuePollutionCell);
         int year = (int) yearCell.getNumericCellValue();
         double pollutionConcentration = getDoubleFromCell(concentrationCell);
 
         return new PollutionDto(objectName,"No Description provided",
-                pollutantName, year, valuePollution, pollutionConcentration);
+                pollutantId, year, valuePollution, pollutionConcentration);
     }
 
     private double getDoubleFromCell(Cell numericCell) {
