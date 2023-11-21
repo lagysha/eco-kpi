@@ -1,3 +1,3 @@
 CREATE SEQUENCE IF NOT EXISTS pollutions_sequence
-    START WITH 15
+    START WITH 30
     INCREMENT BY 1;

@@ -15,7 +15,7 @@ public class Pollution {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pollutions_seq")
-    @SequenceGenerator(name = "pollutions_seq", sequenceName = "pollutions_sequence", initialValue = 15, allocationSize = 1)
+    @SequenceGenerator(name = "pollutions_seq", sequenceName = "pollutions_sequence", initialValue = 30, allocationSize = 1)
     private Long id;
 
     @ManyToOne(cascade = {CascadeType.PERSIST})
@@ -43,6 +43,13 @@ public class Pollution {
 
     @Column(name = "fee")
     private double fee;
+
+    @Column
+    private double tax;
+
+    public static double calcTax(double valuePollution,double taxRate){
+        return taxRate * valuePollution;
+    }
 
     public static double calculateHQ(double pc,double rfc) {
         return calculateAddLadd(pc)*rfc;

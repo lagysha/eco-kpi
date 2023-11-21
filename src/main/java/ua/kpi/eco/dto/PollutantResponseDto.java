@@ -1,5 +1,7 @@
 package ua.kpi.eco.dto;
 
+import ua.kpi.eco.model.PollutantType;
+
 public record PollutantResponseDto(
         Long id,
         String name,
@@ -7,5 +9,7 @@ public record PollutantResponseDto(
         Long mfr,
         double tlv,
         double sf,
-        double rfc
+        double rfc,
+        PollutantType pollutantType,
+        double taxRate
 ) {}

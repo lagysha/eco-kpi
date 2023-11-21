@@ -1,5 +1,6 @@
 package ua.kpi.eco.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class Object {
     private String description;
 
     @OneToMany(mappedBy = "object", cascade = {CascadeType.REMOVE})
+    @JsonIgnore
     private List<Pollution> pollutions;
 
     public Object(String name, String description) {

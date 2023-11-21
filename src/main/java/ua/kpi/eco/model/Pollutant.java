@@ -12,10 +12,10 @@ public class Pollutant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pollution_seq")
-    @SequenceGenerator(name = "pollution_seq", sequenceName = "pollutions_sequence", initialValue = 15, allocationSize = 1)
+    @SequenceGenerator(name = "pollution_seq", sequenceName = "pollutions_sequence", initialValue = 30, allocationSize = 1)
     private Long id;
 
-    @Column(name = "name",unique = true)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "elv")
@@ -32,4 +32,11 @@ public class Pollutant {
 
     @Column(name = "rfc")
     private double rfc;
+
+    @ManyToOne
+    @JoinColumn(name = "pollutant_type_id")
+    private PollutantType pollutantType;
+
+    @Column(name = "taxRate")
+    private double taxRate;
 }
