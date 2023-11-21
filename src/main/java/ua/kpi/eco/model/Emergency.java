@@ -48,7 +48,7 @@ public class Emergency {
     private double emergencyLoss;
 
     public static double calcPeopleLoss(int peopleCountDead,int peopleCountStrongInjury,int peopleCountLightInjury,int peopleCountFatalInjury){
-        return peopleCountDead * 47 + peopleCountStrongInjury * 6.5 + peopleCountLightInjury * 0.28 + peopleCountFatalInjury * 37;
+        return 1000 * (peopleCountDead * 47 + peopleCountStrongInjury * 6.5 + peopleCountLightInjury * 0.28 + peopleCountFatalInjury * 37);
     }
 
     public static double calcEmergencyLoss(double mass,double taxRate, long pollutantTypeId,double tlv, double concentration){

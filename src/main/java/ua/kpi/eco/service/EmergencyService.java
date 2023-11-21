@@ -67,9 +67,9 @@ public class EmergencyService {
         emergency.setMass(emergencyDto.mass());
         emergency.setConcentration(emergencyDto.concentration());
         emergency.setPeopleCountDead(emergencyDto.peopleCountDead());
-        emergency.setPeopleCountFatalInjury(emergency.getPeopleCountFatalInjury());
-        emergency.setPeopleCountLightInjury(emergency.getPeopleCountLightInjury());
-        emergency.setPeopleCountStrongInjury(emergency.getPeopleCountStrongInjury());
+        emergency.setPeopleCountFatalInjury(emergencyDto.peopleCountFatalInjury());
+        emergency.setPeopleCountLightInjury(emergencyDto.peopleCountLightInjury());
+        emergency.setPeopleCountStrongInjury(emergencyDto.peopleCountStrongInjury());
         emergency.setPeopleLoss(Emergency.calcPeopleLoss(emergencyDto.peopleCountDead(), emergencyDto.peopleCountStrongInjury(),
                 emergencyDto.peopleCountLightInjury(), emergencyDto.peopleCountFatalInjury()));
         emergency.setEmergencyLoss(Emergency.calcEmergencyLoss(emergencyDto.mass(),pollutant.getTaxRate(),
